@@ -36,6 +36,17 @@ for frequencies higher than 72MHz the function will take care of
 the clocks not to exceed the max limits. If it's set to `0` then
 also the `PCLK1` and `PCLK2` will be overclocked.
 
+> Note: In order to make the overclocking work, I had to modify a
+line in the standard peripheral library and specificaly in this
+file `source/libs/StdPeriph_Driver/src/stm32f30x_rcc.c`. Therefore,
+in line #876 you'll see that I've removed the `HSI_VALUE` division
+with 2.
+```cpp
+/* HSI oscillator clock divided by 2 selected as PLL clock entry */
+//        pllclk = (HSI_VALUE >> 1) * pllmull;
+        pllclk = HSI_VALUE * pllmull;
+```
+
 ## Build and flash
 This project was developed and tested on a Linux machine only.
 Nevertheless, I've provided also a script for windows machines
